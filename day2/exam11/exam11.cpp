@@ -160,6 +160,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			myFont1 = CreateFont(12, 0, 0, 0, 0, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, L"±¼¸²");
 			oldFont1 = (HFONT)SelectObject(hdc, myFont1);
 
+			HFONT myFont2, oldFont2;
+			myFont2 = CreateFont(20, 0, 0, 0, 0, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, L"±¼¸²");
+			oldFont2 = (HFONT)SelectObject(hdc, myFont2);
+
 			Rectangle(hdc, 100, 100, 400, 250);
 
 			TCHAR szMsg[] = L"¹Ú ¼® È¯";
@@ -182,11 +186,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			
 			SelectObject(hdc, myFont1);
 			TextOut(hdc, 220, 230, szMsg3, wcslen(szMsg3));
-			
-			SelectObject(hdc, myFont1);
-			TextOut(hdc, 120, 120, szMsg4, wcslen(szMsg4));
-
 			DeleteObject(myFont1);
+
+			SelectObject(hdc, myFont2);
+			TextOut(hdc, 120, 120, szMsg4, wcslen(szMsg4));
+			DeleteObject(myFont2);
+
 			SelectObject(hdc, oldBrush);
 			DeleteObject(myBrush);
 
