@@ -153,7 +153,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			oldBrush = (HBRUSH)SelectObject(hdc, myBrush);
 
 			HFONT myFont, oldFont;
-			myFont = CreateFont(16, 0, 0, 0, 0, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, L"굴림");
+			myFont = CreateFont(18, 0, 0, 0, 0, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, L"굴림");
 			oldFont = (HFONT)SelectObject(hdc, myFont);
 
 			HFONT myFont1, oldFont1;
@@ -161,7 +161,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			oldFont1 = (HFONT)SelectObject(hdc, myFont1);
 
 			HFONT myFont2, oldFont2;
-			myFont2 = CreateFont(20, 0, 0, 0, 0, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, L"굴림");
+			myFont2 = CreateFont(24, 0, 0, 0, 0, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, L"굴림");
 			oldFont2 = (HFONT)SelectObject(hdc, myFont2);
 
 			Rectangle(hdc, 100, 100, 400, 250);
@@ -170,7 +170,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			TCHAR szMsg1[] = L"e-mail : kermian@naver.com";
 			TCHAR szMsg2[] = L"연락처 : 000-001-0002";
 			TCHAR szMsg3[] = L"주소 : 전주시 완산구 평화동2가";
-			TCHAR szMsg4[] = L"ABCDE";
+			TCHAR szMsg4[] = L"ABCDEFG";
 			SetTextColor(hdc, RGB(51, 0, 0));
 			SetBkMode(hdc, TRANSPARENT);
 
