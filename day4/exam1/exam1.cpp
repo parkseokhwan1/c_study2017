@@ -164,6 +164,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			//Rectangle(hdc, 100, 100, 200, 200);
 
+
 			Graphics graphics(hdc);
 
 			Pen pen(Color(255, 0, 0),5.0f);
