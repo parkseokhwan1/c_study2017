@@ -21,6 +21,7 @@ INT_PTR CALLBACK procMemoView(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 
 #include "../../engine/mywin32_engine.h"
 TCHAR g_szMemoDB[1024];
+TCHAR *db = g_szMemoDB;
 int g_nMemoDBTailIndex = 0;
 HWND g_hOutputLogBox;
 
@@ -219,7 +220,7 @@ INT_PTR CALLBACK procMemoIns(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 			GetWindowText(GetDlgItem(hDlg, IDC_EDIT_INS),szBuf, 256);
 
 			if (g_nMemoDBTailIndex > 0) {
-				g_szMemoDB[g_nMemoDBTailIndex++] = L',';
+				db[g_nMemoDBTailIndex++] = L',';
 			}
 			else {
 
@@ -227,7 +228,7 @@ INT_PTR CALLBACK procMemoIns(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 
 			int i = 0;
 			for (i = 0; szBuf[i] != 0x00; i++) {
-				g_szMemoDB[g_nMemoDBTailIndex++] = szBuf[i];
+				db[g_nMemoDBTailIndex++] = szBuf[i];
 			}
 			/*g_szMemoDB[g_nMemoDBTailIndex + i] = L',';
 			g_nMemoDBTailIndex += (i+1);*/
@@ -265,8 +266,8 @@ INT_PTR CALLBACK procMemoView(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 
 			if (nSel > 0) {
 				int nCount = 0;
-				while (g_szMemoDB[i] != 0x00) {
-					if (g_szMemoDB[i] == L',') {
+				while (db[i] != 0x00) {
+					if (db[i] == L',') {
 						nCount++;
 					}
 					if (nCount == nSel) break;
@@ -277,9 +278,9 @@ INT_PTR CALLBACK procMemoView(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 
 			int j = 0;
 
-			while (g_szMemoDB[i] != 0x00 && g_szMemoDB[i] != L',') {
+			while (db[i] != 0x00 && db[i] != L',') {
 				
-				szBuf[j++] = g_szMemoDB[i++];
+				szBuf[j++] = db[i++];
 			}
 			szBuf[j] = 0x00;
 
