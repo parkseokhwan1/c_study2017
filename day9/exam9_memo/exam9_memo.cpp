@@ -21,7 +21,6 @@ INT_PTR CALLBACK procMemoView(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 
 #include "../../engine/mywin32_engine.h"
 TCHAR g_szMemoDB[1024];
-TCHAR *db = g_szMemoDB;
 int g_nMemoDBTailIndex = 0;
 HWND g_hOutputLogBox;
 
@@ -220,7 +219,7 @@ INT_PTR CALLBACK procMemoIns(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 			GetWindowText(GetDlgItem(hDlg, IDC_EDIT_INS),szBuf, 256);
 
 			if (g_nMemoDBTailIndex > 0) {
-				db[g_nMemoDBTailIndex++] = L',';
+				g_szMemoDB[g_nMemoDBTailIndex++] = L',';
 			}
 			else {
 
@@ -228,7 +227,7 @@ INT_PTR CALLBACK procMemoIns(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 
 			int i = 0;
 			for (i = 0; szBuf[i] != 0x00; i++) {
-				db[g_nMemoDBTailIndex++] = szBuf[i];
+				g_szMemoDB[g_nMemoDBTailIndex++] = szBuf[i];
 			}
 			/*g_szMemoDB[g_nMemoDBTailIndex + i] = L',';
 			g_nMemoDBTailIndex += (i+1);*/
@@ -264,25 +263,38 @@ INT_PTR CALLBACK procMemoView(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 			int nSel = _wtoi(szBuf);
 			int i = 0;
 
+			TCHAR *ptrStart = g_szMemoDB;
+
 			if (nSel > 0) {
 				int nCount = 0;
-				while (db[i] != 0x00) {
-					if (db[i] == L',') {
+				
+				while (*ptrStart != 0x00) {
+					if (*ptrStart == L',') {
 						nCount++;
 					}
-					if (nCount == nSel) break;
-					i++;
+					ptrStart++;
+					if (nCount == nSel) {
+						break;
+					
+					}
 				}
-				i++;
-			}
-
-			int j = 0;
-
-			while (db[i] != 0x00 && db[i] != L',') {
 				
-				szBuf[j++] = db[i++];
 			}
-			szBuf[j] = 0x00;
+
+			/*int j = 0;*/
+
+			TCHAR *ptrTarget = szBuf;
+			TCHAR *ptrSource = ptrStart;			//시작위치 복사
+			while (*ptrSource != 0x00 && *ptrSource != L',') {
+				
+				/*szBuf[j++] = db[i++];*/
+				*ptrTarget = *ptrSource;
+				ptrTarget++;
+				ptrSource++;
+			}
+
+			*ptrTarget = 0x00;
+			//szBuf[j] = 0x00;
 
 			SetWindowText(g_hOutputLogBox, szBuf);
 
