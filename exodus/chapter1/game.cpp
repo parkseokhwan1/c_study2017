@@ -149,6 +149,12 @@ void GDIPLUS_Loop(MSG &msg)
 								g_nItemSwitchYpos == g_nPlayerYpos) {
 								g_nItemSwitchStatus = 1;
 								g_MapAttrBlock[8 * 7 + 2] = 0;	// (7,2) 위치 막힘 제거
+
+							}
+						}
+						else {
+							 if (g_nPlayerXpos == 2 && g_nPlayerYpos == 7) {
+								g_MapRoom1[8 * 7 + 2] = 22;
 							}
 						}
 						
