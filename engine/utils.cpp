@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "utils.h"
 
 TCHAR g_szaMsgLog[1024][256];
 int g_nMsgLogTailIndex = 0;
@@ -12,6 +13,15 @@ void win32_Printf(HWND hWnd, TCHAR *fmt, ...)
 	g_nMsgLogTailIndex++;
 	va_end(ap);
 	InvalidateRect(hWnd, NULL, TRUE);
+}
+
+void win32_Scanf(const TCHAR *szbuf, const TCHAR *fmt, ...)
+{
+	va_list ap;
+	va_start(ap, fmt);
+	vswscanf(szbuf, fmt, ap);
+
+	va_end(ap);
 }
 
 void DisplayLog(HDC hdc) {
