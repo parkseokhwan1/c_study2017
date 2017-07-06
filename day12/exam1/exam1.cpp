@@ -127,6 +127,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 TCHAR g_szInputBuffer[256];
 void procTest2(HWND hWnd);
 void procTest3(HWND hWnd);
+void procTest4(HWND hWnd);
+void procTest5(HWND hWnd);
+void procTest6(HWND hWnd);
+void procTest7(HWND hWnd);
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -151,6 +155,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				break;
 			case IDM_EXAM_3:
 				procTest3(hWnd);
+				break;
+			case IDM_EXAM_4:
+				procTest4(hWnd);
+				break;
+			case IDM_EXAM_5:
+				procTest5(hWnd);
+				break;
+			case IDM_EXAM_6:
+				procTest6(hWnd);
+				break;
+			case IDM_EXAM_7:
+				procTest7(hWnd);
 				break;
             case IDM_ABOUT:
                 DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
