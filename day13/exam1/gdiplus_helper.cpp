@@ -16,8 +16,10 @@ void StopGDILoop()
 	g_dwGdiLoopFsm = 20;
 }
 
-void Test_DrawPath(Graphics *graphBackBuffer,Pen *pen)
+void Test_DrawPath(Graphics* graphBackBuffer, void *pParam)
 {
+	Pen *pen = *(Pen **)pParam;
+
 	// 패스 그리기
 	GraphicsPath pathObj;
 	pathObj.AddLine(0, 0, 50, 50);
@@ -32,13 +34,25 @@ void Test_DrawPath(Graphics *graphBackBuffer,Pen *pen)
 	graphBackBuffer->ResetTransform();
 }
 
-void Test_DrawRect(Graphics *graphBackBuffer, Pen *pen)
+void Test_DrawRect(Graphics* graphBackBuffer, void *pParam)
 {
-	graphBackBuffer->DrawRectangle(pen, Rect(160, 100, 100, 50));
+	//Graphics* graphBackBuffer;
+	Pen *pen = *(Pen **)pParam;
+
+	graphBackBuffer->DrawRectangle(pen, Rect(160, 100, 50, 50));
 }
 
-void Test_DrawCurve(Graphics* graphBackBuffer, Pen *pen, Pen *pen2, Brush *brush)
+void Test_DrawCurve(Graphics* graphBackBuffer, void *pParam)
 {	
+	//Graphics* graphBackBuffer;
+	Pen *pen, *pen2;
+	Brush *brush;
+
+	pen = *(Pen **)pParam;
+	pen2 = *(Pen **)((BYTE *)pParam + 4);
+	brush = *(Brush **)((BYTE *)pParam + 8);
+	
+
 	// 곡선 그리기
 	Point points[] = {
 	Point(50,50),
@@ -90,10 +104,49 @@ void GDIPLUS_Loop(MSG &msg)
 		static LONG prev_tick;
 		static SYSTEMTIME time;
 
-		
-
-		void(*Test_DrawFp)(Graphics*, Pen *);
+	
+		void(*Test_DrawFp)(Graphics *graphBackBuffer, void *);
+		void *pThisParam;
 		Test_DrawFp = NULL;
+		pThisParam = NULL;
+
+		
+		void *pTemp;
+
+		BYTE bufTest_DrawPath_Parm[256];
+		pTemp = bufTest_DrawPath_Parm;
+		{
+			//DWORD nTemp = (DWORD)&penRed;
+			//memcpy(pTemp, &nTemp, 4);
+
+			*(int *)pTemp = (DWORD)&penRed;
+		}
+		
+		BYTE bufTest_DrawRect_Parm[256];
+		pTemp = bufTest_DrawRect_Parm;
+		{
+			DWORD nTemp = (DWORD)&penRed;
+			memcpy(pTemp, &nTemp, 4);
+		}
+		//pTemp = bufTest_DrawRect_Parm;
+		//memcpy(pTemp, &penWhite, 4);
+
+		BYTE bufTest_DrawCurve_Parm[256];
+		pTemp = bufTest_DrawCurve_Parm;
+		DWORD nTemp = (DWORD)&penRed;
+		{
+			*(DWORD *)pTemp = (DWORD)&penRed;
+			*(DWORD *)((BYTE *)pTemp + 4) = (DWORD)&penWhite;
+			*(DWORD *)((BYTE *)pTemp + 8) = (DWORD)&brushGreen;
+
+			/*DWORD nTemp = (DWORD)&penRed;
+			memcpy(pTemp, &nTemp, 4);
+			nTemp = (DWORD)&penWhite;
+			memcpy((BYTE *)pTemp + 4, &nTemp, 4);
+			nTemp = (DWORD)&brushGreen;
+			memcpy((BYTE *)pTemp + 8, &nTemp, 4);*/
+		}
+
 
 		while (!quit) {
 
@@ -108,13 +161,16 @@ void GDIPLUS_Loop(MSG &msg)
 						StartGDILoop();
 						break;
 					case IDM_TEST_PATH:
+						pThisParam = bufTest_DrawPath_Parm;
 						Test_DrawFp = Test_DrawPath;
 						break;
 					case IDM_TEST_RECT:
+						pThisParam = bufTest_DrawRect_Parm;
 						Test_DrawFp = Test_DrawRect;
 						break;
 					case IDM_TEST_CURVE:
-						//Test_DrawFp = Test_DrawCurve;
+						pThisParam = bufTest_DrawCurve_Parm;
+						Test_DrawFp = Test_DrawCurve;
 						break;
 					case IDM_TEST_NONE:
 						Test_DrawFp = NULL;
@@ -146,7 +202,7 @@ void GDIPLUS_Loop(MSG &msg)
 						graphBackBuffer->FillRectangle(&brushBlack, rectScreen);
 
 						if (Test_DrawFp != NULL) {
-							Test_DrawFp(graphBackBuffer, &penWhite);
+							Test_DrawFp(graphBackBuffer, pThisParam);
 						}
 
 						graphics.DrawImage(&bmpMem, rectScreen);
