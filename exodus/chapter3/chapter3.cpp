@@ -1,6 +1,15 @@
 // chapter3.cpp : 응용 프로그램에 대한 진입점을 정의합니다.
 //
 
+//과제:
+//
+//상태창 지도 밑에다가
+//열쇠개수 스테이지 숫자
+
+//키 여러개 스위치 여러개
+
+//마지막 스테이지 탈출후 게임오버 표시
+
 #include "stdafx.h"
 #include "chapter3.h"
 
@@ -12,6 +21,8 @@ HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 
+extern int g_nCurrentStage;
+
 // 이 코드 모듈에 들어 있는 함수의 정방향 선언입니다.
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -19,6 +30,7 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 #include "game.h"
+#include "../../engine/mywin32_engine.h"
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -101,6 +113,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
+	case WM_CREATE:
+	{
+		mywin32_engine::makeEditBox(hWnd, 0, 600, 250, 3001);
+	}
+		break;
 	case WM_KEYDOWN:
 		eventKeyDown(wParam);
 		break;
@@ -112,6 +129,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             {
 			case IDM_START:
 				StartGame();
+
+				mywin32_engine::SetControlValueInt(hWnd, 3001, g_nCurrentStage);
+
 				break;
             case IDM_ABOUT:
                 DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
