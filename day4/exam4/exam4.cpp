@@ -9,7 +9,7 @@
 #include <gdiplus.h>
 using namespace Gdiplus;
 #pragma comment(lib, "Gdiplus.lib")
-#define MAX_LOADSTRING 100
+
 
 #define MAX_LOADSTRING 100
 
