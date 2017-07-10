@@ -208,14 +208,17 @@ INT_PTR CALLBACK procMemberIns(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 		{
 			struct marriage {
 				TCHAR name[20];
-				UINT age;
-				BYTE sex;
-				DWORDLONG height;
+				TCHAR age[4];
+				TCHAR sex[2];
+				TCHAR height[6];
 			};
 
 			marriage m1[256];
 
 			GetWindowText(GetDlgItem(hDlg, DATA_EDIT_INS), m1->name, 256);
+			GetWindowText(GetDlgItem(hDlg, DATA_EDIT_INS), m1->age, 256);
+			GetWindowText(GetDlgItem(hDlg, DATA_EDIT_INS), m1->sex, 256);
+			GetWindowText(GetDlgItem(hDlg, DATA_EDIT_INS), m1->height, 256);
 
 			EndDialog(hDlg, LOWORD(wParam));
 			return (INT_PTR)TRUE;
