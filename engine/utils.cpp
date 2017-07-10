@@ -24,6 +24,12 @@ void win32_Scanf(const TCHAR *szbuf, const TCHAR *fmt, ...)
 	va_end(ap);
 }
 
+void ClearLog(HWND hWnd)
+{
+	g_nMsgLogTailIndex = 0;
+	InvalidateRect(hWnd, NULL, TRUE);
+}
+
 void DisplayLog(HDC hdc) {
 	for (int i = 0; i < g_nMsgLogTailIndex; i++) {
 		TextOut(hdc, 0, i * 24, g_szaMsgLog[i], wcslen(g_szaMsgLog[i]));
