@@ -21,8 +21,7 @@ INT_PTR CALLBACK procMemberIns(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 #include "../../engine/mywin32_engine.h"
 #include "../../engine/utils.h"
 
-TCHAR *g_pszMemberList[1024];
-int g_nMemberCount;
+int g_nMemberCount = 0;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -206,19 +205,23 @@ INT_PTR CALLBACK procMemberIns(HWND hDlg, UINT message, WPARAM wParam, LPARAM lP
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDOK)
 		{
+			TCHAR szBuf[256];
+			GetWindowText(GetDlgItem(hDlg, DATA_EDIT_INS), szBuf, 256);
+
 			struct marriage {
-				TCHAR name[20];
-				TCHAR age[4];
-				TCHAR sex[2];
-				TCHAR height[6];
+				char name[20];
+				int age;
+				char sex;
+				double height;
 			};
 
-			marriage m1[256];
+			marriage m1[1024];
+			static int i = 0;
 
-			GetWindowText(GetDlgItem(hDlg, DATA_EDIT_INS), m1->name, 256);
-			GetWindowText(GetDlgItem(hDlg, DATA_EDIT_INS), m1->age, 256);
-			GetWindowText(GetDlgItem(hDlg, DATA_EDIT_INS), m1->sex, 256);
-			GetWindowText(GetDlgItem(hDlg, DATA_EDIT_INS), m1->height, 256);
+			for (i; i < szBuf[i] != L','; i++) {
+				m1->name[i] = szBuf[i];
+			}
+			for (i; )
 
 			EndDialog(hDlg, LOWORD(wParam));
 			return (INT_PTR)TRUE;
