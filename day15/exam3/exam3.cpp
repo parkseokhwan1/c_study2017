@@ -166,24 +166,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             {
 			case IDM_MAP_SAVE:
 			{
-				FILE *mp;
+				FILE *fp;
 
-				mp = fopen("mapsave.png", "wb");
+				fp = fopen("mapsave.png", "wb");
 
-				fwrite(&g_GameMap, sizeof(S_GAMEMAP), 1, mp);
+				fwrite(&g_GameMap, g_GameMap.m_TileWidth * g_GameMap.m_TileHeight, 1, fp);
 
-				fclose(mp);
+				fclose(fp);
 			}
 				break;
 			case IDM_MAP_LOAD:
 			{
-				FILE *mp;
+				FILE *fp;
 
-				mp = fopen("mapsave.png", "rb");
+				fp = fopen("mapsave.png", "rb");
 
-				fread(&g_GameMap, sizeof(S_GAMEMAP), 1, mp);
+				fread(&g_GameMap, g_GameMap.m_TileWidth * g_GameMap.m_TileHeight, 1, fp);
 
-				fclose(mp);
+				fclose(fp);
 
 				InvalidateRect(hWnd, NULL, TRUE);
 			}
