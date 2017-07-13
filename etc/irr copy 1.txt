@@ -1,0 +1,16 @@
+#include "../../engine/irrlicht/include/irrlicht.h"
+#include "../../engine/plusEngine.h"
+
+plusEngine::startUpGdiPlus();
+
+plusEngine::CloseGdiPlus();
+
+Graphics grp(hdc);
+Pen pen(Color(0, 0, 0));
+//화면 눈금표시
+grp.DrawLine(&pen, 0, 120, 320, 120);
+grp.DrawLine(&pen, 160, 0, 160, 240);
+grp.DrawRectangle(&pen, 0, 0, 320, 240);
+grp.SetTransform(&Matrix(1, 0, 0, 1, 160, 120));
+
+grp.ResetTransform();
