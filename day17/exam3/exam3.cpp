@@ -124,6 +124,31 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 irr::core::vector2df g_vObjPos;
 irr::f64 g_fObjRotation;
 
+void drawObject(Graphics *grp, irr::core::vector2df *pObjPloy, Pen *pen, irr::core::vector2df pos, irr::f64 fRotation)
+{
+	//irr::core::vector2df *pObjPloy = testObjPloy1;
+
+	Matrix tempMat;
+	grp->GetTransform(&tempMat);
+	grp->TranslateTransform(pos.X, pos.Y);
+	grp->RotateTransform(fRotation);
+
+	Matrix wMat;
+	grp->GetTransform(&wMat);
+
+	for (int i = 0; i < 4; i++) {
+		irr::core::vector2df start = pObjPloy[i];
+		irr::core::vector2df end = pObjPloy[(i + 1) % 4];
+		grp->DrawLine(pen, start.X, start.Y, end.X, end.Y);
+
+		PointF _start(start.X, start.Y);
+		wMat.TransformPoints(&_start);
+		plusEngine::printf(grp, start.X, start.Y, L"(%.1lf , %.1lf)", _start.X, _start.Y);
+
+	}
+	grp->SetTransform(&tempMat);
+}
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
@@ -132,16 +157,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case VK_UP:
-			g_vObjPos.Y -= 1;
+			g_vObjPos.Y -= 4;
 			break;
 		case VK_DOWN:
-			g_vObjPos.Y += 1;
+			g_vObjPos.Y += 4;
 			break;
 		case VK_LEFT:
-			g_vObjPos.X -= 1;
+			g_vObjPos.X -= 4;
 			break;
 		case VK_RIGHT:
-			g_vObjPos.X += 1;
+			g_vObjPos.X += 4;
 			break;
 		case 'A':
 			g_fObjRotation += 8;
@@ -192,21 +217,55 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			grp.DrawRectangle(&pen, 0, 0, 320, 240);
 			grp.SetTransform(&Matrix(1, 0, 0, 1, 160, 120));
 
+			//대상 물체 그리기
+			irr::core::vector2df obj1_pos(-100, -100);
+			irr::f64 obj1_rot = 30;
+			drawObject(&grp, testObjPloy1, &pen, obj1_pos, obj1_rot);					//obj1
+			drawObject(&grp, testObjPloy1, &pen, g_vObjPos, g_fObjRotation);			//obj2
+
+			irr::core::vector2df worldpos_obj1[4];
+			irr::core::vector2df worldpos_obj2[4];
+
+			//obj1 -> world
 			{
-				irr::core::vector2df *pObjPloy = testObjPloy1;
-				Matrix tempMat;
-				grp.GetTransform(&tempMat);
-				grp.TranslateTransform(g_vObjPos.X, g_vObjPos.Y);
-				grp.RotateTransform(g_fObjRotation);
+				Matrix world_mat;
+				world_mat.Translate(obj1_pos.X, obj1_pos.Y);
+				world_mat.Rotate(obj1_rot);
 
-				for (int i = 0; i < 4; i++) {
-					irr::core::vector2df start = pObjPloy[i];
-					irr::core::vector2df end = pObjPloy[(i + 1)%4];
-					grp.DrawLine(&pen, start.X, start.Y, end.X, end.Y);
-
-					plusEngine::printf(&grp, start.X, start.Y, L"(%.1lf , %.1lf)", start.X, start.Y);
+				for (int i = 0; i < 4; i++)
+				{
+					PointF temp(testObjPloy1[i].X, testObjPloy1[i].Y);
+					world_mat.TransformPoints(&temp);
+					worldpos_obj1[i].X = temp.X;
+					worldpos_obj1[i].Y = temp.Y;
 				}
-				grp.SetTransform(&tempMat);
+			}
+
+			//obj2 -> world
+			{
+				Matrix world_mat;
+				world_mat.Translate(g_vObjPos.X, g_vObjPos.Y);
+				world_mat.Rotate(g_fObjRotation);
+
+				for (int i = 0; i < 4; i++)
+				{
+					PointF temp(testObjPloy1[i].X, testObjPloy1[i].Y);
+					world_mat.TransformPoints(&temp);
+					worldpos_obj2[i].X = temp.X;
+					worldpos_obj2[i].Y = temp.Y;
+				}
+			}
+			for (int j = 0; j < 4; j++) {
+				irr::core::line2df line1(worldpos_obj2[j], worldpos_obj2[(j + 1) % 4]);
+				for (int i = 0; i < 4; i++) {
+					irr::core::line2df line2;
+					line2.setLine(worldpos_obj1[i], worldpos_obj1[(i + 1) % 4]);
+
+					irr::core::vector2df colPt;
+					if (line1.intersectWith(line2, colPt)) {
+						grp.DrawRectangle(&pen, colPt.X - 4, colPt.Y - 4, 8., 8.);
+					}
+				}
 			}
 
 			grp.ResetTransform();
