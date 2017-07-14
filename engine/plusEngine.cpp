@@ -5,14 +5,14 @@ namespace plusEngine {
 	//gdi plus 초기화 코드 
 	GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR           gdiplusToken;
-
+	
 	void startUpGdiPlus()
 	{
 		//----------------------------------------------------------------------
 		// Initialize GDI+.
 		GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 		//----------------------------------------------------------------
-
+				
 
 	}
 	void CloseGdiPlus()
@@ -23,7 +23,7 @@ namespace plusEngine {
 		//--------------------------------------
 	}
 
-	void printf(Graphics *grp, Font &font, Pen &pen, Brush &brush, int x, int y, TCHAR *fmt, ...)
+	void printf(Graphics *grp,Font &font,Pen &pen,Brush &brush,  int x, int y, TCHAR *fmt, ...)
 	{
 		va_list ap;
 		va_start(ap, fmt);
@@ -39,7 +39,7 @@ namespace plusEngine {
 		va_start(ap, fmt);
 		static TCHAR szBuf[1024];
 		vswprintf_s(szBuf, 1024, fmt, ap);
-
+		
 		Pen pen(Color(255, 0, 0));
 		Gdiplus::SolidBrush brushBlack(Color(0, 0, 0));
 		FontFamily  fontFamily(L"굴림");
@@ -51,8 +51,8 @@ namespace plusEngine {
 
 
 	//DWORD WINAPI ThreadFunc(LPVOID temp)
-	void(*fpOnLoop)(double);
-	void(*fpOnRender)(double, Graphics*);
+	void (*fpOnLoop)(double);
+	void(*fpOnRender)(double,Graphics*);
 
 	void GDIPLUS_Loop(MSG &msg, Gdiplus::Rect rectScreen)
 	{
@@ -71,7 +71,7 @@ namespace plusEngine {
 			bool quit = false;
 			//gdiplus 가 셧다운 되기전에 객체들이 삭제되어야 하므로 일부러 지역변수선언을 한단계 내려서 사용했다.			
 			Bitmap bmpMem(rectScreen.Width, rectScreen.Height);
-			Graphics* pBackScreen = Graphics::FromImage(&bmpMem);
+			Graphics* pBackScreen = Graphics::FromImage(&bmpMem);			
 
 			while (!quit) {
 
@@ -114,7 +114,7 @@ namespace plusEngine {
 		//gdi plus 종료코드 
 		GdiplusShutdown(gdiplusToken);
 		//--------------------------------------
-
-
 	}
+		
+
 }
