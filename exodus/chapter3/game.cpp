@@ -174,6 +174,9 @@ int g_StageInfo[][12] = {
 };
 
 int g_nCurrentStage;
+
+int g_nFinalStage = 5;
+
 int g_nPlayerXpos;
 int g_nPlayerYpos;
 int g_nPlayerKeyCount;
@@ -467,6 +470,8 @@ void GDIPLUS_Loop(MSG &msg)
 							BackStage(g_nCurrentStage);
 						}
 
+						
+
 
 						//상태창( 현재 스테이지 )
 						{
@@ -535,10 +540,14 @@ void GDIPLUS_Loop(MSG &msg)
 						graphics.ResetTransform();
 
 						//게임종료 메세지
-						if (g_nCurrentStage == 0) {
+
+						if (g_nFinalStage == g_nCurrentStage) {
 							MessageBox(msg.hwnd, L"GAME OVER!", L"Congratulations", MB_OK);
-							
+							g_nFinalStage = 0;
 						}
+
+
+						
 						
 						
 
