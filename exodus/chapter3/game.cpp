@@ -20,29 +20,29 @@ int g_MapRooms[][64] = {
 	},
 	{
 	3, 0, 0, 0, 0, 0, 0, 3,
-	1,14, 14,14,14,14,14, 1,
-	1,14, 14,14,14,14,14, 1,
-	1,14, 14,10,10,14,14, 1,
-	1,14, 14,10,10,14,14, 1,
-	1,14, 14,14,14,14,14, 1,
-	1,14, 14,14,14,14,14, 1,
-	2, 2,  2, 2, 2, 2, 2, 2
+	1,10,10,14,14,14,14, 1,
+	1,14,10,14,10,14,14, 1,
+	1,14,10,14,10,14,14, 1,
+	1,14,10,10,10,14,14, 1,
+	1,14,14,14,14,14,14, 1,
+	1,14,14,14,14,14,14, 1,
+	2, 2, 2, 2, 2, 2, 2, 2
 	},
 	{
 	3, 0, 0, 0, 0, 0, 0, 3,
-	1,14, 14,14,14,14,14, 1,
-	1,14, 14,14,14,14,14, 1,
-	1,14, 14,14,14,14,14, 1,
-	1,14, 17,17,17,14,14, 1,
-	1,14, 14,14,17,14,14, 1,
-	1,14, 17,17,17,14,14, 1,
-	2, 2,  2, 2, 2, 2, 2, 2
+	1,17, 17,17,14,14,14,1,
+	1,14, 14,17,14,14,14,1,
+	1,14, 17,17,14,14,14,1,
+	1,14, 14,14,14,14,14,1,
+	1,14, 14,14,14,14,14,1,
+	1,14, 14,14,14,14,14,1,
+	2, 2,  2, 2, 2, 2, 2,2
 	},
 	{
 	3, 0, 0, 0, 0, 0, 0, 3,
 	1,14,14,74,14,14,14, 1,
-	1,14,14,74,14,74,74, 1,
-	1,14,14,14,14,14,14, 1,
+	1,74,14,74,14,14,14, 1,
+	1,74,14,14,14,14,14, 1,
 	1,14,14,14,14,14,14, 1,
 	1,14,14,14,14,14,14, 1,
 	1,14,14,14,14,14,14, 1,
@@ -83,29 +83,29 @@ int g_MapAttrBlock[][64] = {
 	},
 	{
 	1, 1, 1, 1, 1, 1, 1, 1,
-	1, 0, 0, 0, 0, 0, 0, 1,
-	1, 0, 0, 0, 0, 0, 0, 1,
-	1, 0, 0, 1, 1, 0, 0, 1,
-	1, 0, 0, 1, 1, 0, 0, 1,
+	1, 1, 1, 0, 0, 0, 0, 1,
+	0, 0, 1, 0, 1, 0, 0, 1,
+	1, 0, 1, 0, 1, 0, 0, 1,
+	1, 0, 1, 1, 1, 0, 0, 1,
 	1, 0, 0, 0, 0, 0, 0, 1,
 	1, 0, 0, 0, 0, 0, 0, 1,
 	1, 1, 1, 1, 1, 1, 1, 1
 	},
 	{
 	1, 1, 1, 1, 1, 1, 1, 1,
-	1, 0, 0, 0, 0, 0, 0, 1,
-	1, 0, 0, 0, 0, 0, 0, 1,
-	1, 0, 0, 0, 0, 0, 0, 1,
-	1, 0, 1, 1, 1, 0, 0, 1,
-	1, 0, 0, 0, 1, 0, 0, 1,
-	1, 0, 1, 1, 1, 0, 0, 1,
-	1, 1, 1, 1, 1, 1, 1, 1
-	},
-	{
-	1, 1, 1, 1, 1, 1, 1, 1,
+	1, 1, 1, 1, 0, 0, 0, 1,
 	1, 0, 0, 1, 0, 0, 0, 1,
-	1, 0, 0, 1, 0, 1, 1, 1,
+	1, 0, 1, 1, 0, 0, 0, 1,
 	1, 0, 0, 0, 0, 0, 0, 1,
+	0, 0, 0, 0, 0, 0, 0, 1,
+	1, 0, 0, 0, 0, 0, 0, 1,
+	1, 1, 1, 1, 1, 1, 1, 1
+	},
+	{
+	1, 1, 1, 1, 1, 0, 1, 1,
+	1, 0, 0, 1, 0, 0, 0, 1,
+	1, 1, 0, 1, 0, 0, 0, 1,
+	1, 1, 0, 0, 0, 0, 0, 1,
 	1, 0, 0, 0, 0, 0, 0, 1,
 	1, 0, 0, 0, 0, 0, 0, 1,
 	1, 0, 0, 0, 0, 0, 0, 1,
@@ -116,7 +116,7 @@ int g_MapAttrBlock[][64] = {
 	1, 0, 0, 1, 0, 1, 0, 1,
 	1, 0, 1, 1, 0, 1, 0, 1,
 	1, 0, 0, 0, 0, 1, 0, 1,
-	1, 0, 1, 1, 1, 1, 0, 1,
+	0, 0, 1, 1, 1, 1, 0, 1,
 	1, 0, 0, 0, 0, 0, 0, 1,
 	1, 0, 0, 0, 0, 0, 0, 1,
 	1, 1, 1, 1, 1, 1, 1, 1
@@ -134,17 +134,42 @@ int g_MapAttrBlock[][64] = {
 };
 
 //캐릭터 리젠위치, 열림 스위치 위치, 탈출구 위치, 열쇠 위치
-int g_StageInfo[][10] = {
+int g_StageInfo[][12] = {
 	{
-		3,2,		// 캐릭터 리젠위치
+		1,1,		// 캐릭터 리젠위치
 		5,3,39,		// 열림 스위치 위치
+		0,0,		// 입구 위치
 		7,2,		// 탈출구 위치
 		6,6,27		// 열쇠 위치
 	},
-	{1,1,5,3,39,7,5,5,5,27},
-	{2,2,6,1,39,5,7,3,5,27},
-	{1,4,1,6,39,7,4,6,1,27},
-	{1,6,4,6,39,7,6,4,1,27},
+	{
+		1,2,
+		3,6,39,
+		0,2,
+		7,5,
+		3,3,27
+	},
+	{
+		1,5,
+		6,1,39,
+		0,5,
+		5,7,
+		2,2,27
+	},
+	{
+		5,1,
+		1,6,39,
+		5,0,
+		7,4,
+		1,1,27
+	},
+	{
+		1,4,
+		4,6,39,
+		0,4,
+		7,6,
+		4,1,27
+	},
 	{5,5,0,0,64,0,0,0,0,64}
 };
 
@@ -165,6 +190,9 @@ int g_nItemKeyYpos = 6;
 int g_nItemKeySprIndex = 70;
 int g_nItemKeyStatus = 0;
 
+//입구 오브젝트
+int g_nEnterPosX, g_nEnterPosY;
+
 //탈출구 오브젝트
 int g_nExitPosX, g_nExitPosY;
 int g_nExitStatus = 0;			//0 : 대기, 1 : 닫기, 2 : 열기 
@@ -176,6 +204,7 @@ DWORD g_dwGdiLoopFsm = 0;		//루프상태제어
 
 void StartStage(int nStage)
 {
+	//처음위치
 	g_nPlayerXpos = g_StageInfo[nStage][0];
 	g_nPlayerYpos = g_StageInfo[nStage][1];
 	g_nPlayerKeyCount = 0;
@@ -186,16 +215,55 @@ void StartStage(int nStage)
 	g_nItemSwitchSprIndex = g_StageInfo[nStage][4];
 	g_nItemSwitchStatus = 0;	//비활성 상태
 
+	//입구
+	g_nEnterPosX = g_StageInfo[nStage][5];
+	g_nEnterPosY = g_StageInfo[nStage][6];
+
 	//탈출구
-	g_nExitPosX = g_StageInfo[nStage][5];
-	g_nExitPosY = g_StageInfo[nStage][6];
+	g_nExitPosX = g_StageInfo[nStage][7];
+	g_nExitPosY = g_StageInfo[nStage][8];
 	g_nExitStatus = 1;
 
 	//열쇠 초기화
-	g_nItemKeyXpos = g_StageInfo[nStage][7];
-	g_nItemKeyYpos = g_StageInfo[nStage][8];
-	g_nItemKeySprIndex = g_StageInfo[nStage][9];
+	g_nItemKeyXpos = g_StageInfo[nStage][9];
+	g_nItemKeyYpos = g_StageInfo[nStage][10];
+	g_nItemKeySprIndex = g_StageInfo[nStage][11];
 	g_nItemKeyStatus = 1;	// 1 : 존재, 0 : 없음
+}
+
+void BackStage(int nStage)
+{
+	//처음위치
+	if (g_StageInfo[nStage][7] == 7) {
+		g_nPlayerXpos = g_StageInfo[nStage][7] - 1;
+		g_nPlayerYpos = g_StageInfo[nStage][8];
+	}
+	else {
+		g_nPlayerXpos = g_StageInfo[nStage][7];
+		g_nPlayerYpos = g_StageInfo[nStage][8] - 1;
+	}
+	
+
+	//스위치
+	g_nItemSwitchXpos = g_StageInfo[nStage][2];
+	g_nItemSwitchYpos = g_StageInfo[nStage][3];
+	g_nItemSwitchSprIndex = g_StageInfo[nStage][4];
+	g_nItemSwitchStatus = 1;
+
+	//입구
+	g_nEnterPosX = g_StageInfo[nStage][5];
+	g_nEnterPosY = g_StageInfo[nStage][6];
+
+	//탈출구
+	g_nExitPosX = g_StageInfo[nStage][7];
+	g_nExitPosY = g_StageInfo[nStage][8];
+	g_nExitStatus = 2;
+
+	//열쇠 초기화
+	g_nItemKeyXpos = g_StageInfo[nStage][9];
+	g_nItemKeyYpos = g_StageInfo[nStage][10];
+	g_nItemKeySprIndex = g_StageInfo[nStage][11];
+	g_nItemKeyStatus = 0;	// 1 : 존재, 0 : 없음
 }
 
 void StartGame()
@@ -203,6 +271,8 @@ void StartGame()
 	g_nCurrentStage = 0;
 	StartStage(g_nCurrentStage);
 	g_dwGdiLoopFsm = 10; //랜더링 활성화
+
+
 
 }
 
@@ -280,7 +350,7 @@ void GDIPLUS_Loop(MSG &msg)
 	{
 		bool quit = false;
 		//gdiplus 가 셧다운 되기전에 객체들이 삭제되어야 하므로 일부러 지역변수선언을 한단계 내려서 사용했다.
-		Gdiplus::Rect rectScreen(0, 0, 320, 240);
+		Gdiplus::Rect rectScreen(0, 0, 384, 256);
 		Bitmap bmpMem(rectScreen.Width, rectScreen.Height);
 		Graphics* graphBackBuffer = Graphics::FromImage(&bmpMem);
 
@@ -366,22 +436,54 @@ void GDIPLUS_Loop(MSG &msg)
 						default:
 							break;
 						}
+						
+						static int i = 0;
 
 						// 문으로 나가기 검사
 						//if (g_MapRooms[g_nCurrentStage][g_nPlayerYpos * 8 + g_nPlayerXpos] == 50) {
 						if(g_nPlayerXpos == g_nExitPosX && g_nPlayerYpos == g_nExitPosY){
 							//g_ptrCurrentMap = g_MapRoom2;
 							g_nCurrentStage += 1;	//다음판으로
+							i += 1;
 							StartStage(g_nCurrentStage);
+							setMapTile(g_MapRooms, g_nEnterPosX, g_nEnterPosY, 50);
 							//g_nPlayerXpos = 3;
 							//g_nPlayerYpos = 3;
+
 						}
 						/*else {
 							 if (g_nPlayerXpos == 2 && g_nPlayerYpos == 7) {
 								g_MapRoom1[8 * 7 + 2] = 50;
 							}  문 근처 가면 열림
 						}*/
+
+
+
 						
+						// 뒤로가기
+						if (g_nPlayerXpos == g_nEnterPosX && g_nPlayerYpos == g_nEnterPosY) {
+							g_nCurrentStage -= 1;
+							i -= 1;
+							BackStage(g_nCurrentStage);
+						}
+
+
+						//상태창( 현재 스테이지 )
+						{
+							HDC hdc = GetDC(msg.hwnd);
+
+							TCHAR szStage[256];
+							int nStage;
+							GetWindowText(GetDlgItem(msg.hwnd, g_nCurrentStage), szStage, 256);
+							nStage = _wtoi(szStage);
+							TCHAR szBuf[256];
+							swprintf(szBuf, 256, L"현재 스테이지 : %d", nStage + 1 + i);
+							TextOut(hdc, 0, 300, szBuf, wcslen(szBuf));
+
+							ReleaseDC(msg.hwnd, hdc);
+						}
+
+
 					}
 
 					//랜더링
@@ -398,6 +500,9 @@ void GDIPLUS_Loop(MSG &msg)
 									ix, iy, g_MapRooms[g_nCurrentStage]);
 							}
 						}
+
+
+
 
 						//플레이어 그리기
 						graphBackBuffer->DrawImage(&imgPlayer,
@@ -425,13 +530,27 @@ void GDIPLUS_Loop(MSG &msg)
 
 						
 
-						graphics.ScaleTransform(2.5, 2.5);
+						graphics.ScaleTransform(2.0, 2.0);
 						graphics.DrawImage(&bmpMem, rectScreen);
 						graphics.ResetTransform();
+
+						//게임종료 메세지
+						if (g_nCurrentStage == 0) {
+							MessageBox(msg.hwnd, L"GAME OVER!", L"Congratulations", MB_OK);
+							
+						}
+						
+						
+
 					}
+
+
 					ReleaseDC(msg.hwnd, hdc);
+
+
 				}
 				break;
+
 				default:
 					break;
 				}

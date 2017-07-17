@@ -113,11 +113,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
-	case WM_CREATE:
+	/*case WM_CREATE:
 	{
-		mywin32_engine::makeEditBox(hWnd, 0, 600, 250, 3001);
+		mywin32_engine::makeEditBox(hWnd, 0, 520, 250, 3001);
 	}
-		break;
+		break;*/
 	case WM_KEYDOWN:
 		eventKeyDown(wParam);
 		break;
@@ -130,7 +130,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			case IDM_START:
 				StartGame();
 
-				mywin32_engine::SetControlValueInt(hWnd, 3001, g_nCurrentStage);
+				/*mywin32_engine::SetControlValueInt(hWnd, 3001, g_nCurrentStage);*/
 
 				break;
             case IDM_ABOUT:
