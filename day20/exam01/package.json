@@ -1,0 +1,9 @@
+{
+  "name": "exam01",
+  "version": "0.0.0",
+  "description": "exam01",
+  "main": "server.js",
+  "author": {
+    "name": "KICT-09"
+  }
+}
