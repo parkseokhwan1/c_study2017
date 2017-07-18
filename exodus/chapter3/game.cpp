@@ -355,16 +355,16 @@ void eventKeyDown(WPARAM wParam)
 	int savePosy = g_nPlayerYpos;
 	switch (wParam)
 	{
-	case VK_UP:
+	case 'W':
 		g_nPlayerYpos--;
 		break;
-	case VK_DOWN:
+	case 'S':
 		g_nPlayerYpos++;
 		break;
-	case VK_LEFT:
+	case 'A':
 		g_nPlayerXpos--;
 		break;
-	case VK_RIGHT:
+	case 'D':
 		g_nPlayerXpos++;
 		break;
 	default:
