@@ -133,7 +133,7 @@ int g_MapAttrBlock[][64] = {
 	}
 };
 
-//캐릭터 리젠위치, 열림 스위치 위치, 탈출구 위치, 열쇠 위치
+//캐릭터 리젠위치, 열림 스위치 위치, 입구 위치, 탈출구 위치, 열쇠 위치
 int g_StageInfo[][12] = {
 	{
 		1,1,		// 캐릭터 리젠위치
@@ -173,38 +173,49 @@ int g_StageInfo[][12] = {
 	{5,5,0,0,64,0,0,0,0,64}
 };
 
+//현재 스테이지
 int g_nCurrentStage;
 
+//최종 스테이지
 int g_nFinalStage = 5;
 
+//재출입 인덱스
+static int g_nBackFront = 0;
+
+//플레이어 위치
 int g_nPlayerXpos;
 int g_nPlayerYpos;
+
+//열쇠 개수
 int g_nPlayerKeyCount;
 
 //문열림 스위치 오브젝트 
 int g_nItemSwitchXpos = 5;
 int g_nItemSwitchYpos = 3;
 int g_nItemSwitchSprIndex;
-int g_nItemSwitchStatus = 0;			// 0 : 스위치 멈춤, 1 : 스위치 작동
+int g_nItemSwitchStatus = 0;					// 0 : 스위치 멈춤, 1 : 스위치 작동
+static int g_nItemSwitchStatusIndex = 0;		// 0 : 작동되지않은 스위치, 1: 작동한 스위치
 
 // 열쇠 오브젝트
 int g_nItemKeyXpos = 6;
 int g_nItemKeyYpos = 6;
 int g_nItemKeySprIndex = 70;
-int g_nItemKeyStatus = 0;
+int g_nItemKeyStatus = 0;						// 0 : 열쇠 없음, 1 : 열쇠 존재
+static int g_nItemKeyStatusIndex = 0;			// 0 : 열쇠 미소유, 1: 열쇠 소유
 
 //입구 오브젝트
 int g_nEnterPosX, g_nEnterPosY;
 
 //탈출구 오브젝트
 int g_nExitPosX, g_nExitPosY;
-int g_nExitStatus = 0;			//0 : 대기, 1 : 닫기, 2 : 열기 
+static int g_nExitStatus = 0;			//0 : 대기, 1 : 닫기, 2 : 열기 
 
 const int g_nTileSize = 16;
 const int g_nTileXCount = 8;
 
 DWORD g_dwGdiLoopFsm = 0;		//루프상태제어
 
+//앞스테이지로
 void StartStage(int nStage)
 {
 	//처음위치
@@ -216,7 +227,9 @@ void StartStage(int nStage)
 	g_nItemSwitchXpos = g_StageInfo[nStage][2];
 	g_nItemSwitchYpos = g_StageInfo[nStage][3];
 	g_nItemSwitchSprIndex = g_StageInfo[nStage][4];
-	g_nItemSwitchStatus = 0;	//비활성 상태
+	g_nItemSwitchStatus = 0;
+
+	
 
 	//입구
 	g_nEnterPosX = g_StageInfo[nStage][5];
@@ -231,9 +244,16 @@ void StartStage(int nStage)
 	g_nItemKeyXpos = g_StageInfo[nStage][9];
 	g_nItemKeyYpos = g_StageInfo[nStage][10];
 	g_nItemKeySprIndex = g_StageInfo[nStage][11];
-	g_nItemKeyStatus = 1;	// 1 : 존재, 0 : 없음
+	if (g_nItemKeyStatusIndex == 0) {
+		g_nItemKeyStatus = 1;
+	}
+	else {
+		g_nItemKeyStatus = 0;
+	}
+	
 }
 
+//앞 => 뒤 스테이지로
 void BackStage(int nStage)
 {
 	//처음위치
@@ -245,7 +265,7 @@ void BackStage(int nStage)
 		g_nPlayerXpos = g_StageInfo[nStage][7];
 		g_nPlayerYpos = g_StageInfo[nStage][8] - 1;
 	}
-	
+	g_nPlayerKeyCount = 0;
 
 	//스위치
 	g_nItemSwitchXpos = g_StageInfo[nStage][2];
@@ -266,7 +286,47 @@ void BackStage(int nStage)
 	g_nItemKeyXpos = g_StageInfo[nStage][9];
 	g_nItemKeyYpos = g_StageInfo[nStage][10];
 	g_nItemKeySprIndex = g_StageInfo[nStage][11];
+	g_nItemKeyStatus = 0;	
+
+}
+
+//뒤 => 앞 스테이지로
+void FrontStage(int nStage)
+{
+	//처음위치
+	g_nPlayerXpos = g_StageInfo[nStage][0];
+	g_nPlayerYpos = g_StageInfo[nStage][1];
+	g_nPlayerKeyCount = 0;
+
+	//스위치
+	g_nItemSwitchXpos = g_StageInfo[nStage][2];
+	g_nItemSwitchYpos = g_StageInfo[nStage][3];
+	g_nItemSwitchSprIndex = g_StageInfo[nStage][4];
+	if (g_nItemSwitchStatusIndex == 0) {
+		g_nItemSwitchStatus = 0;
+	}
+	else {
+		g_nItemSwitchStatus = 1;
+	}
+
+	//입구
+	g_nEnterPosX = g_StageInfo[nStage][5];
+	g_nEnterPosY = g_StageInfo[nStage][6];
+
+	//탈출구
+	g_nExitPosX = g_StageInfo[nStage][7];
+	g_nExitPosY = g_StageInfo[nStage][8];
+	g_nExitStatus = 2;
+
+	//열쇠 초기화
+	g_nItemKeyXpos = g_StageInfo[nStage][9];
+	g_nItemKeyYpos = g_StageInfo[nStage][10];
+	g_nItemKeySprIndex = g_StageInfo[nStage][11];
 	g_nItemKeyStatus = 0;	// 1 : 존재, 0 : 없음
+
+	//재출입 인덱스 초기화
+	g_nBackFront--;
+
 }
 
 void StartGame()
@@ -274,8 +334,6 @@ void StartGame()
 	g_nCurrentStage = 0;
 	StartStage(g_nCurrentStage);
 	g_dwGdiLoopFsm = 10; //랜더링 활성화
-
-
 
 }
 
@@ -289,7 +347,6 @@ int setMapTile(int(*pMap)[64], int mx, int my, int nNewTile)
 	int oldTile = pMap[g_nCurrentStage][my * 8 + mx];
 	pMap[g_nCurrentStage][my * 8 + mx] = nNewTile;
 	return oldTile;
-
 }
 
 void eventKeyDown(WPARAM wParam)
@@ -317,7 +374,6 @@ void eventKeyDown(WPARAM wParam)
 	if (getMapTile(g_MapAttrBlock, g_nPlayerXpos, g_nPlayerYpos) == 1) {
 		g_nPlayerXpos = savePosx;
 		g_nPlayerYpos = savePosy;
-
 	}
 
 }
@@ -391,14 +447,21 @@ void GDIPLUS_Loop(MSG &msg)
 
 					//게임 로직
 					{
+						static int i = 0;		// 스테이지 인덱스
+						static int j = 0;		// 키 인덱스
+
 						//스위치 로직 처리
 						if (g_nItemSwitchStatus == 0) {
 							if (g_nItemSwitchXpos == g_nPlayerXpos &&
 								g_nItemSwitchYpos == g_nPlayerYpos &&
-								g_nPlayerKeyCount > 0) {
+								g_nPlayerKeyCount + j> 0 &&
+								g_nItemKeyStatusIndex == 1) {
 								g_nItemSwitchStatus = 1;
+								g_nItemSwitchStatusIndex = 1;
+								g_nItemKeyStatusIndex = 0;
 								g_nExitStatus = 2;
 								g_nPlayerKeyCount--;
+								j--;
 								//setMapTile(g_MapAttrBlock, g_nExitPosX, g_nExitPosY, 0);
 								//setMapTile(g_MapRooms, g_nExitPosX, g_nExitPosY, 50);		// 문 열림 표시
 							}
@@ -410,7 +473,9 @@ void GDIPLUS_Loop(MSG &msg)
 								g_nPlayerYpos == g_nItemKeyYpos
 								) {
 								g_nItemKeyStatus = 0;
+								g_nItemKeyStatusIndex = 1;
 								g_nPlayerKeyCount++;
+								j++;
 							}
 						}
 
@@ -440,11 +505,11 @@ void GDIPLUS_Loop(MSG &msg)
 							break;
 						}
 						
-						static int i = 0;
+						
 
 						// 문으로 나가기 검사
 						//if (g_MapRooms[g_nCurrentStage][g_nPlayerYpos * 8 + g_nPlayerXpos] == 50) {
-						if(g_nPlayerXpos == g_nExitPosX && g_nPlayerYpos == g_nExitPosY){
+						if(g_nPlayerXpos == g_nExitPosX && g_nPlayerYpos == g_nExitPosY && g_nBackFront == 0){
 							//g_ptrCurrentMap = g_MapRoom2;
 							g_nCurrentStage += 1;	//다음판으로
 							i += 1;
@@ -452,28 +517,35 @@ void GDIPLUS_Loop(MSG &msg)
 							setMapTile(g_MapRooms, g_nEnterPosX, g_nEnterPosY, 50);
 							//g_nPlayerXpos = 3;
 							//g_nPlayerYpos = 3;
-
 						}
 						/*else {
 							 if (g_nPlayerXpos == 2 && g_nPlayerYpos == 7) {
 								g_MapRoom1[8 * 7 + 2] = 50;
 							}  문 근처 가면 열림
 						}*/
-
-
+						else if(g_nPlayerXpos == g_nExitPosX && g_nPlayerYpos == g_nExitPosY && g_nBackFront > 0) {
+							g_nCurrentStage += 1;	//다음판으로
+							i += 1;
+							FrontStage(g_nCurrentStage);
+							setMapTile(g_MapRooms, g_nEnterPosX, g_nEnterPosY, 50);
+						}
 
 						
+						
 						// 뒤로가기
-						if (g_nPlayerXpos == g_nEnterPosX && g_nPlayerYpos == g_nEnterPosY) {
+						if (g_nPlayerXpos == g_nEnterPosX && g_nPlayerYpos == g_nEnterPosY && g_nItemSwitchStatus == 1) {
+							g_nCurrentStage -= 1;
+							i -= 1;
+							g_nBackFront++;
+							BackStage(g_nCurrentStage);
+						}
+						else if(g_nPlayerXpos == g_nEnterPosX && g_nPlayerYpos == g_nEnterPosY && g_nItemSwitchStatus == 0){
 							g_nCurrentStage -= 1;
 							i -= 1;
 							BackStage(g_nCurrentStage);
 						}
 
-						
-
-
-						//상태창( 현재 스테이지 )
+						//상태창( 현재 스테이지 , 열쇠 개수)
 						{
 							HDC hdc = GetDC(msg.hwnd);
 
@@ -481,8 +553,14 @@ void GDIPLUS_Loop(MSG &msg)
 							int nStage;
 							GetWindowText(GetDlgItem(msg.hwnd, g_nCurrentStage), szStage, 256);
 							nStage = _wtoi(szStage);
+
+							TCHAR szKey[256];
+							int nKey;
+							GetWindowText(GetDlgItem(msg.hwnd, g_nPlayerKeyCount), szKey, 256);
+							nKey = _wtoi(szKey);
+
 							TCHAR szBuf[256];
-							swprintf(szBuf, 256, L"현재 스테이지 : %d", nStage + 1 + i);
+							swprintf(szBuf, 256, L"현재 스테이지 : %d , 열쇠 개수 : %d", nStage + 1 + i, nKey + j);
 							TextOut(hdc, 0, 300, szBuf, wcslen(szBuf));
 
 							ReleaseDC(msg.hwnd, hdc);
